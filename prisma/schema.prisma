@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model super_admin {
+  id                   String          @id @default(uuid())
+  email                String          @unique
+  password             String
+  username             String?
+  company_email        String?
+  company_phone_number String?
+  about                String?
+  website              String?
+  logo                 String?
+  brand_name           String?
+  is_deleted           Boolean         @default(false)
+  Secret_key           String
+  created_at           DateTime        @default(now())
+  deleted_at           DateTime?
+  // Email                Email[]
+}
+
+model Email {
+  id          String      @id @default(uuid())
+  email       String
+  subject     String
+  content     String
+  sentAt      DateTime    @default(now())
+  user_id     String      @unique
+  // super_admin super_admin @relation(fields: [user_id], references: [id])
+}
+
+
